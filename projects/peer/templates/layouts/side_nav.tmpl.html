@@ -1,0 +1,48 @@
+{{ define "side_nav" }}
+
+<nav id="sidebar" class="active">
+  <div class="sidebar-header">
+    <img
+      src="assets/img/bootstraper-logo.png"
+      alt="bootraper logo"
+      class="app-logo"
+    />
+  </div>
+  <ul class="list-unstyled components text-secondary">
+    <li>
+      <a href="/">
+        <i class="fas fa-home"></i>
+        Dashboard
+      </a>
+    </li>
+
+    <!-- Begin of Menu Template -->
+    {{range .menulist}}
+
+    <li>
+      <a
+        href="#{{.ID}}"
+        data-bs-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle no-caret-down"
+      >
+        <i class="{{.Icon}}" style="{{.Style}}"></i>
+        {{.Name}}
+      </a>
+      <ul class="collapse list-unstyled" id="{{.ID}}">
+        {{range .SubMenu}}
+        <li>
+          <a href="{{.Href}}">
+            <i class="fas fa-angle-right"></i>
+            {{.Title}}
+          </a>
+        </li>
+
+        {{end}}
+      </ul>
+    </li>
+    {{end}}
+    <!-- End of Menu Template -->
+  </ul>
+</nav>
+{{ end }}
