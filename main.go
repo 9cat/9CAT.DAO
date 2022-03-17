@@ -32,6 +32,10 @@ func main() {
 		arg := os.Args[1]
 		switch arg {
 
+		case "ecrecover":
+			go peer.Create().ECRecover()
+			break
+
 		case "peer":
 			go peer.Create().Run()
 			break

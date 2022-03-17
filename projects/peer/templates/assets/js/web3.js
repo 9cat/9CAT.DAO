@@ -143,7 +143,6 @@ async function fetchAccountData() {
   // Display fully loaded UI for wallet data
   document.querySelector('#prepare').style.display = 'none'
   document.querySelector('#connected').style.display = 'block'
-
 }
 
 /**
@@ -169,11 +168,18 @@ async function refreshAccountData() {
 }
 
 async function onSignMessage() {
-  const message = 'helloworld'
+  const message = '\u0019Ethereum Signed Message:\n13Cryptokitties'
   // Sign message with Metamask (private key)
   const web3 = new Web3(provider)
   const signedMessage = await web3.eth.personal.sign(message, selectedAccount)
+  // const signedMessage = await web3.eth.sign(message, selectedAccount)
+
+
+
   console.log('sign:', signedMessage)
+
+  // let whoSigned1 = await web3.eth.accounts.recover(message, signedMessage)
+  // console.log('whoSigned1:', whoSigned1)
 }
 
 /**
@@ -213,15 +219,15 @@ async function onDisconnect() {
   console.log('Killing the wallet connection', provider)
 
   // TODO: Which providers have close method?
-  // if(provider.close) {
-  // await provider.close();
+  // if (provider.close) {
+    // await provider.close();
 
-  // If the cached provider is not cleared,
-  // WalletConnect will default to the existing session
-  // and does not allow to re-scan the QR code with a new wallet.
-  // Depending on your use case you may want or want not his behavir.
-  await web3Modal.clearCachedProvider()
-  provider = null
+    // If the cached provider is not cleared,
+    // WalletConnect will default to the existing session
+    // and does not allow to re-scan the QR code with a new wallet.
+    // Depending on your use case you may want or want not his behavir.
+    await web3Modal.clearCachedProvider()
+    provider = null
   // }
 
   selectedAccount = null
@@ -239,8 +245,9 @@ window.addEventListener('load', async () => {
 
   document.querySelector('#btn-connect').addEventListener('click', onConnect)
 
-  document.querySelector('#sign-message').addEventListener('click', onSignMessage)
-
+  document
+    .querySelector('#sign-message')
+    .addEventListener('click', onSignMessage)
 
   document
     .querySelector('#btn-disconnect')
