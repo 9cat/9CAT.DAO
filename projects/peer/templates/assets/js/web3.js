@@ -19,6 +19,8 @@ let provider
 // Address of the selected account
 let selectedAccount
 
+let web3Session
+
 /**
  * Setup the orchestra
  */
@@ -168,15 +170,45 @@ async function refreshAccountData() {
 }
 
 async function onSignMessage() {
-  const message = '\u0019Ethereum Signed Message:\n13Cryptokitties'
+  const message = 'Temple is Good?' + Date.now()
   // Sign message with Metamask (private key)
   const web3 = new Web3(provider)
   const signedMessage = await web3.eth.personal.sign(message, selectedAccount)
   // const signedMessage = await web3.eth.sign(message, selectedAccount)
 
-
-
   console.log('sign:', signedMessage)
+
+  const verifyJSON = JSON.stringify({ a: selectedAccount ,m: message, s: signedMessage })
+
+  console.log('verifyJSON:', verifyJSON)
+
+  const settings = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: verifyJSON
+  }
+
+  try {
+    const fetchResponse = await fetch(`https://master.9cat.work/session`, settings)
+    const data = await fetchResponse.json()
+
+    console.log('reps data:', data)
+    web3Session=data.session
+    console.log('session:', web3Session)
+
+
+    var encrypted = CryptoJS.AES.encrypt("Message", web3Session);
+
+    console.log('encrypted:', encrypted.toString())
+
+
+  } catch (e) {
+    console.log('get session err:', e)
+    return e
+  }
 
   // let whoSigned1 = await web3.eth.accounts.recover(message, signedMessage)
   // console.log('whoSigned1:', whoSigned1)
@@ -220,14 +252,14 @@ async function onDisconnect() {
 
   // TODO: Which providers have close method?
   // if (provider.close) {
-    // await provider.close();
+  // await provider.close();
 
-    // If the cached provider is not cleared,
-    // WalletConnect will default to the existing session
-    // and does not allow to re-scan the QR code with a new wallet.
-    // Depending on your use case you may want or want not his behavir.
-    await web3Modal.clearCachedProvider()
-    provider = null
+  // If the cached provider is not cleared,
+  // WalletConnect will default to the existing session
+  // and does not allow to re-scan the QR code with a new wallet.
+  // Depending on your use case you may want or want not his behavir.
+  await web3Modal.clearCachedProvider()
+  provider = null
   // }
 
   selectedAccount = null
