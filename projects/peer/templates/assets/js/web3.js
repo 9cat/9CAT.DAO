@@ -170,7 +170,7 @@ async function refreshAccountData() {
 }
 
 async function onSignMessage() {
-  const message = 'Temple is Good?' + Date.now()
+  const message = '9CAT Community Personal Sign in Processing ID=' + Date.now()
   // Sign message with Metamask (private key)
   const web3 = new Web3(provider)
   const signedMessage = await web3.eth.personal.sign(message, selectedAccount)
@@ -178,7 +178,11 @@ async function onSignMessage() {
 
   console.log('sign:', signedMessage)
 
-  const verifyJSON = JSON.stringify({ a: selectedAccount ,m: message, s: signedMessage })
+  const verifyJSON = JSON.stringify({
+    a: selectedAccount,
+    m: message,
+    s: signedMessage,
+  })
 
   console.log('verifyJSON:', verifyJSON)
 
@@ -188,25 +192,77 @@ async function onSignMessage() {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: verifyJSON
+    body: verifyJSON,
   }
 
   try {
-    const fetchResponse = await fetch(`https://master.9cat.work/session`, settings)
+    const fetchResponse = await fetch(
+      `https://master.9cat.work/session`,
+      settings,
+    )
     const data = await fetchResponse.json()
 
     console.log('reps data:', data)
-    web3Session=data.session
+    web3Session = data.session
     console.log('session:', web3Session)
 
-
-    var encrypted = CryptoJS.AES.encrypt("Message", web3Session);
+    var encrypted = CryptoJS.AES.encrypt('Message', web3Session)
 
     console.log('encrypted:', encrypted.toString())
-
-
   } catch (e) {
     console.log('get session err:', e)
+    return e
+  }
+
+  // let whoSigned1 = await web3.eth.accounts.recover(message, signedMessage)
+  // console.log('whoSigned1:', whoSigned1)
+}
+
+async function onActionMessage() {
+  const message = '{action:checkbalance,account:temple}'
+  // const web3Session = '4ea8424745c586b91b28623934d0d0f8f5d983f8f1f2c7e3'
+
+  const key = web3Session.substring(0, 15)
+
+  // console.log('message :', message)
+  // console.log('web3Session :', web3Session)
+  // console.log('key :', key)
+
+  // var encrypted = CryptoJS.AES.encrypt(message, web3Session)
+  var encrypted = aseEncrypt(message, key)
+  // console.log('encrypted :', encrypted)
+
+  // console.log('action encrypted2:', encrypted)
+
+  const actionJSON = JSON.stringify({
+    a: selectedAccount,
+    m: encrypted,
+    // .ciphertext.toString(),
+    // iv: encrypted.iv.toString(),
+    // key: encrypted.key.toString(),
+  })
+
+  console.log('action JSON:', actionJSON)
+
+  const settings = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: actionJSON,
+  }
+
+  try {
+    const fetchResponse = await fetch(
+      `https://master.9cat.work/action`,
+      settings,
+    )
+    const data = await fetchResponse.json()
+
+    console.log('reps data:', data)
+  } catch (e) {
+    console.log('do action err:', e)
     return e
   }
 
@@ -282,6 +338,50 @@ window.addEventListener('load', async () => {
     .addEventListener('click', onSignMessage)
 
   document
+    .querySelector('#action-message')
+    .addEventListener('click', onActionMessage)
+
+  document
     .querySelector('#btn-disconnect')
     .addEventListener('click', onDisconnect)
 })
+
+
+//https://mojotv.cn/go/crypto-js-with-golang
+//msg 需要被对称加密的明文
+//key aes 对称加密的密钥  必须是16长度,为了和后端交互 key字符串必须是16进制字符串,否在给golang进行string -> []byte带来困难
+function aseEncrypt(msg, key) {
+  key = PaddingLeft(key, 16) //保证key的长度为16byte,进行'0'补位
+  key = CryptoJS.enc.Utf8.parse(key)
+  // console.log('key:', key)
+
+  // 加密结果返回的是CipherParams object类型
+  // key 和 iv 使用同一个值
+  var encrypted = CryptoJS.AES.encrypt(msg, key, {
+    iv: key,
+    mode: CryptoJS.mode.CBC, // CBC算法
+    padding: CryptoJS.pad.Pkcs7, //使用pkcs7 进行padding 后端需要注意
+  })
+
+  // console.log(' encrypted..iv:', encrypted.iv.toString(CryptoJS.enc.Hex))
+  // console.log(' encrypted..key:', encrypted.key.toString())
+  // console.log(' encrypted..salt:', encrypted.salt)
+
+  // console.log(' encrypted:', encrypted.toString())
+
+  // ciphertext是密文,toString()内传编码格式,比如Base64,这里用了16进制
+  // 如果密文要放在 url的参数中 建议进行 base64-url-encoding 和 hex encoding, 不建议使用base64 encoding
+  return encrypted.ciphertext.toString(CryptoJS.enc.Hex) //后端必须进行相反操作
+}
+// 确保key的长度,使用 0 字符来补位
+// length 建议 16 24 32
+function PaddingLeft(key, length) {
+  let pkey = key.toString()
+  let l = pkey.length
+  if (l < length) {
+    pkey = new Array(length - l + 1).join('0') + pkey
+  } else if (l > length) {
+    pkey = pkey.slice(length)
+  }
+  return pkey
+}
