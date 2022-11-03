@@ -1,6 +1,6 @@
 package factory
 
-//MakeMenu : make menu template string
+// MakeMenu : make menu template string
 func MakeMenu() []*MenuEntry {
 
 	var menuList []*MenuEntry
@@ -12,20 +12,20 @@ func MakeMenu() []*MenuEntry {
 
 	//--子目录
 	researchToolSub = append(researchToolSub, &SubMenu{
-		Href:  "/research.trace",
-		Title: "跟踪寻迹",
+		Href:  "https://www.meetup.com/9catnet/",
+		Title: "线下聚会(Meetup.com)",
 	})
 
 	researchToolSub = append(researchToolSub, &SubMenu{
-		Href:  "/research.tools",
-		Title: "分析工具",
+		Href:  "https://www.9cat.net",
+		Title: "官方网站",
 	})
 
 	//主目录
 	researchTool := &MenuEntry{
 		Icon:    "fas fa-search-dollar",
 		Style:   "color: darkblue",
-		Name:    "研究工具",
+		Name:    "了解我们",
 		ID:      "research_tool",
 		SubMenu: researchToolSub,
 	}

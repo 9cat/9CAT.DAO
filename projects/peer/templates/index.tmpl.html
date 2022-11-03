@@ -2,14 +2,52 @@
 
 <div class="container">
   <div class="row">
+    <div id="prepare">
+     <center> <button class="btn btn-primary" id="btn-connect">
+      ：：：：：：：：：：：  连接钱包 ：：：：：：：：：：：
+      </button> </center>
+    </div>
     <div class="col-md-12 page-header">
-      <div class="page-pretitle">Overview</div>
-      <h2 class="page-title">Dashboard</h2>
+      <div class="page-pretitle">总览</div>
+      <h2 class="page-title">仪表盘</h2>
     </div>
   </div>
 
   <!-- 第 2 排 -->
   <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
+      <div class="card">
+        <div class="content">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="icon-big text-center">
+                <a
+                  href="https://9cat.net">
+                <span   id="catavatar">        
+                          <!-- <img  width="64" height="64" src="https://mmhead.c2c.wechat.com/mmhead/b690zSuKeiaexwWC7AoIqfGWmCGicTuLASRehjyUbtepSiaOxshWVQWPw/0"> -->
+                </span>
+                </a>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <div class="detail">
+                <p class="detail-subtitle">9CAT昵称</p>
+                <span   id="cataddress"></span>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <hr />
+            <div class="stats">
+              <i class="fas fa-money-check-alt"></i>
+              9CAT积分余额: 
+              <span class="number" id="catbalance"></span>              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
       <div class="card">
         <div class="content">
@@ -25,7 +63,7 @@
             </div>
             <div class="col-sm-8">
               <div class="detail">
-                <p class="detail-subtitle">社区昵称</p>
+                <p class="detail-subtitle">比特币</p>
                 <span class="number" id="btc-price"></span>
               </div>
             </div>
@@ -33,8 +71,9 @@
           <div class="footer">
             <hr />
             <div class="stats">
-              <i class="fas fa-money-check-alt"></i>社区银行余额： 
-              <span class="number" id="coingecko-btc"></span> 9CAT
+              <i class="fas fa-money-check-alt"></i>
+              幅度
+              <span class="number" id="coingecko-btc"></span>
             </div>
           </div>
         </div>
@@ -92,61 +131,24 @@
         </div>
       </div>
     </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-      <div class="card">
-        <div class="content">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="icon-big text-center">
-                <i class="blue fas fa-gas-pump"></i>
-              </div>
-            </div>
-            <div class="col-sm-8">
-              <div class="detail">
-                <p class="detail-subtitle">气费</p>
-                <span class="number" id="gasfee">0</span>
-              </div>
-            </div>
-          </div>
-          <div class="footer">
-            <hr />
-            <div class="stats">
-              <i class="fas fa-hand-holding-usd"></i>
-              <span class="number" id="coingecko-marketcap-24h-change">0%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="alert alert-danger" id="alert-error-https" style="display: none;">
     You can run this example only over HTTPS connection.
   </div>
 
-  <div id="prepare">
-    <button class="btn btn-primary" id="btn-connect">
-      Connect wallet
-    </button>
-  </div>
-
-
-
   <div id="connected" style="display: none;">
     <button class="btn btn-primary" id="btn-disconnect">
       Disconnect wallet
     </button>
 
- 
-      <button class="btn btn-primary" id="sign-message">
-        Sign
-      </button>
+    <button class="btn btn-primary" id="sign-message">
+      Sign
+    </button>
 
-      <button class="btn btn-primary" id="action-message">
-        Action
-      </button>
- 
+    <button class="btn btn-primary" id="action-message">
+      Action
+    </button>
 
     <hr />
 
@@ -197,6 +199,29 @@
         method: 'wallet_addEthereumChain',
         params: [
           {
+            chainId: '0x01',
+            chainName: 'Ethereum',
+            nativeCurrency: {
+              name: 'Ether',
+              symbol: 'ETH',
+              decimals: 18,
+            },
+            rpcUrls: ['https://mainnet.infura.io/v3/'],
+            blockExplorerUrls: ['https://etherscan.io'],
+          },
+        ],
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  </script>
+
+  <!-- <script>
+    window.ethereum
+      .request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
             chainId: '0x38',
             chainName: 'Binance Smart Chain',
             nativeCurrency: {
@@ -212,7 +237,7 @@
       .catch((error) => {
         console.log(error)
       })
-  </script>
+  </script> -->
 
   <script
     type="text/javascript"
@@ -237,7 +262,185 @@
 
   <!-- This is our example code -->
   <script type="text/javascript" src="assets/js/web3.js"></script>
-  
+
+  <script>
+    function price() {
+      url = 'wss://m.8tc.ca/ws.price'
+
+      c = new WebSocket(url)
+
+      c.onmessage = function (msg) {
+        console.log(msg)
+
+        servers = $.parseJSON(msg.data)
+
+        $.each(servers, function (index, value) {
+          if (value.Name == 'BTC') {
+            $('#btc-price').empty()
+            $('#btc-price').append(
+              $(document.createElement('text')).prop({
+                type: 'text',
+                innerHTML: '$' + Math.round(value.Rate * 100) / 100,
+              }),
+            )
+          } else if (value.Name == 'ETH') {
+            $('#eth-price').empty()
+            $('#eth-price').append(
+              $(document.createElement('text')).prop({
+                type: 'text',
+                innerHTML: '$' + Math.round(value.Rate * 100) / 100,
+              }),
+            )
+          }
+        })
+      }
+
+      c.onclose = function (e) {
+        console.log(
+          'Socket is closed. Reconnect will be attempted in 1 second.',
+          e.reason,
+        )
+        setTimeout(function () {
+          price()
+        }, 1000)
+      }
+
+      c.onerror = function (err) {
+        console.error(
+          'Socket encountered error: ',
+          err.message,
+          'Closing socket',
+        )
+        c.close()
+      }
+    }
+    function gasfee() {
+      url = 'wss://m.8tc.ca/ws.gasfee'
+
+      c = new WebSocket(url)
+
+      c.onmessage = function (msg) {
+        // $('#output').append(new Date() + ' <== ' + msg.data + '\n')
+        console.log(msg)
+
+        $('#gasfee').empty()
+
+        wsdata = $.parseJSON(msg.data)
+
+        $('#gasfee').append(
+          $(document.createElement('text')).prop({
+            type: 'text',
+            innerHTML: wsdata.SuggestBaseFee,
+          }),
+        )
+      }
+
+      c.onclose = function (e) {
+        console.log(
+          'Socket is closed. Reconnect will be attempted in 1 second.',
+          e.reason,
+        )
+        setTimeout(function () {
+          gasfee()
+        }, 1000)
+      }
+
+      c.onerror = function (err) {
+        console.error(
+          'Socket encountered error: ',
+          err.message,
+          'Closing socket',
+        )
+        c.close()
+      }
+    }
+    
+    
+
+    function cataddress() {
+
+      addr=  document.querySelector("#selected-account").textContent
+      console.log("##################################"+addr)
+      if (addr==""){
+        setTimeout(function () {
+          cataddress()
+        }, 1000)
+        return 
+      }
+
+      url = 'wss:/ws.9cat.net/ws.9cat.account.address?addr='+addr
+
+      c = new WebSocket(url)
+
+      c.onmessage = function (msg) {
+         
+        console.log(msg)
+
+        $('#cataddress').empty()
+        $('#catbalance').empty()
+        $('#catavatar').empty()
+
+        wsdata = $.parseJSON(msg.data)
+
+
+        console.log( wsdata)
+
+
+
+       
+
+
+        $('#catavatar').append(
+          $(document.createElement('text')).prop({
+            type: 'text',
+            innerHTML:  `<img  width="64" height="64" src="`+wsdata.avatar+`">`,
+          }),
+        )
+
+
+        $('#cataddress').append(
+          $(document.createElement('text')).prop({
+            type: 'text',
+            innerHTML: wsdata.name,
+          }),
+        )
+
+        $('#catbalance').append(
+          $(document.createElement('text')).prop({
+            type: 'text',
+            innerHTML:"$"+wsdata.credit,
+          }),
+        )
+
+      }
+
+      c.onclose = function (e) {
+        console.log(
+          'Socket is closed. Reconnect will be attempted in 1 second.',
+          e.reason,
+        )
+        setTimeout(function () {
+          cataddress()
+        }, 1000)
+      }
+
+      c.onerror = function (err) {
+        console.error(
+          'Socket encountered error: ',
+          err.message,
+          'Closing socket',
+        )
+        c.close()
+      }
+    }
+    
+    cataddress()
+
+    price()
+    gasfee()
+
+
+  </script>
 
   {{end}}
 </div>
