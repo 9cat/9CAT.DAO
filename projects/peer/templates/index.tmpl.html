@@ -4,7 +4,7 @@
   <div class="row">
     <div id="prepare">
      <center> <button class="btn btn-primary" id="btn-connect">
-      ：：：：：：：：：：：  连接钱包 ：：：：：：：：：：：
+      ：：：：：：：：：：：  连接|钱包 ：：：：：：：：：：：
       </button> </center>
     </div>
     <div class="col-md-12 page-header">
@@ -161,6 +161,11 @@
       <p>
         <strong>Selected account:</strong>
         <span id="selected-account"></span>
+      </p>
+
+      <p>
+        <strong>微信绑定码</strong>
+        <span id="wechat-session"></span>
       </p>
     </div>
 
@@ -358,7 +363,7 @@
     
 
     function cataddress() {
-
+      document.querySelector('#wechat-session').textContent = web3Session
       addr=  document.querySelector("#selected-account").textContent
       console.log("##################################"+addr)
       if (addr==""){
@@ -435,7 +440,6 @@
     }
     
     cataddress()
-
     price()
     gasfee()
 

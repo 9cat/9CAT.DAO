@@ -181,7 +181,7 @@ async function onSignMessage() {
   const verifyJSON = JSON.stringify({
     a: selectedAccount,
     m: message,
-    s: signedMessage,
+    s: signedMessage, //'i am dump',//
   })
 
   console.log('verifyJSON:', verifyJSON)
@@ -205,6 +205,7 @@ async function onSignMessage() {
     console.log('reps data:', data)
     web3Session = data.session
     console.log('session:', web3Session)
+
 
     var encrypted = CryptoJS.AES.encrypt('Message', web3Session)
 
