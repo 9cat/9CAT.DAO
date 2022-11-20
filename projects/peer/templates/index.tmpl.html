@@ -4,7 +4,7 @@
   <div class="row">
     <div id="prepare">
      <center> <button class="btn btn-primary" id="btn-connect">
-      ：：：：：：：：：：：  连接|钱包 ：：：：：：：：：：：
+      ：：：：：：：：：：：  连接*钱包 ：：：：：：：：：：：
       </button> </center>
     </div>
     <div class="col-md-12 page-header">
@@ -266,9 +266,11 @@
   ></script>
 
   <!-- This is our example code -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" src="assets/js/web3.js"></script>
 
   <script>
+    
     function price() {
       url = 'wss://m.8tc.ca/ws.price'
 
@@ -363,7 +365,8 @@
     
 
     function cataddress() {
-      document.querySelector('#wechat-session').textContent = web3Session
+      
+      // document.querySelector('#wechat-session').textContent = globalThis.web3Session
       addr=  document.querySelector("#selected-account").textContent
       console.log("##################################"+addr)
       if (addr==""){
@@ -440,8 +443,8 @@
     }
     
     cataddress()
-    price()
-    gasfee()
+    // price()
+    // gasfee()
 
 
   </script>

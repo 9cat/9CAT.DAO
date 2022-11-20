@@ -4,6 +4,9 @@
  * Example JavaScript code that interacts with the page and Web3 wallets
  */
 
+
+  
+
 // Unpkg imports
 const Web3Modal = window.Web3Modal.default
 const WalletConnectProvider = window.WalletConnectProvider.default
@@ -116,6 +119,8 @@ async function fetchAccountData() {
 
   document.querySelector('#selected-account').textContent = selectedAccount
 
+
+
   // Get a handl
   const template = document.querySelector('#template-balance')
   const accountContainer = document.querySelector('#accounts')
@@ -186,34 +191,61 @@ async function onSignMessage() {
 
   console.log('verifyJSON:', verifyJSON)
 
-  const settings = {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: verifyJSON,
-  }
+  // const settings = {
+  //   mode: 'cors',
+  //   method: 'POST',
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json',
+  //     'Access-Control-Allow-Origin': 'https://master.9cat.work',
+  //   },
+  //   body: verifyJSON,
+  // }
 
+  // try {
+  //   const fetchResponse = await fetch(
+  //     `https://master.9cat.work/session`,
+  //     settings,
+  //   )
+  //   const data = await fetchResponse.json()
+
+  //   console.log('reps data:', data)
+  //   web3Session = data.session
+  //   console.log('session:', web3Session)
+  //   document.querySelector('#wechat-session').textContent = web3Session
+
+  //   var encrypted = CryptoJS.AES.encrypt('Message', web3Session)
+
+  //   console.log('encrypted:', encrypted.toString())
+  // } catch (e) {
+  //   console.log('get session err:', e)
+  //   return e
+  // }
+
+  
+  const axios = require('axios').default
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded; charset=UTF-8'
+  
   try {
-    const fetchResponse = await fetch(
-      `https://master.9cat.work/session`,
-      settings,
-    )
-    const data = await fetchResponse.json()
+    axios
+      .post('https://master.9cat.work/session', {
+        Address: selectedAccount,
+        Message:message,
+        Signature:signedMessage,
 
-    console.log('reps data:', data)
-    web3Session = data.session
-    console.log('session:', web3Session)
-
-
-    var encrypted = CryptoJS.AES.encrypt('Message', web3Session)
-
-    console.log('encrypted:', encrypted.toString())
-  } catch (e) {
-    console.log('get session err:', e)
-    return e
+      })
+      .then(function (response) {       
+            console.log(`response:　` + response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      }) //end-axios
+  } catch (err) {
+    console.log(` catch error!`+err)
   }
+
+
 
   // let whoSigned1 = await web3.eth.accounts.recover(message, signedMessage)
   // console.log('whoSigned1:', whoSigned1)
@@ -253,6 +285,7 @@ async function onActionMessage() {
     },
     body: actionJSON,
   }
+
 
   try {
     const fetchResponse = await fetch(
