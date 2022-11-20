@@ -40,7 +40,7 @@
             <hr />
             <div class="stats">
               <i class="fas fa-money-check-alt"></i>
-              9CAT积分余额: 
+              $CAT余额: 
               <span class="number" id="catbalance"></span>              
             </div>
           </div>
@@ -165,7 +165,12 @@
 
       <p>
         <strong>微信绑定码</strong>
-        <span id="wechat-session"></span>
+        <!-- <span id="wechat-session"></span> -->
+        <input  id="wechat-session" name='wechat-session' value="" /><!-- Trigger -->
+        <button class="btn" data-clipboard-target="#wechat-session">
+            <img src="assets/img/clippy.svg" alt="Copy to clipboard" width="32" height="32"  >  
+             <!-- width="32" height="32" -->
+        </button>
       </p>
     </div>
 
@@ -268,6 +273,7 @@
   <!-- This is our example code -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" src="assets/js/web3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 
   <script>
     
@@ -445,7 +451,7 @@
     cataddress()
     // price()
     // gasfee()
-
+    new ClipboardJS('.btn');
 
   </script>
 

@@ -13,6 +13,8 @@ const WalletConnectProvider = window.WalletConnectProvider.default
 const Fortmatic = window.Fortmatic
 const evmChains = window.evmChains
 
+
+
 // Web3modal instance
 let web3Modal
 
@@ -223,20 +225,41 @@ async function onSignMessage() {
   // }
 
   
-  const axios = require('axios').default
-axios.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded; charset=UTF-8'
-  
-  try {
+
+axios.defaults.headers.post['Content-Type'] =  'application/json; charset=UTF-8'
+// axios.defaults.headers.post['Access-Control-Allow-Origin'] =  '*'
+axios.defaults.headers.post['Access-Control-Allow-Headers'] =  'access-control-allow-origin, access-control-allow-headers'
+// axios.defaults.headers.post['Access-Control-Allow-Credentials'] =  'true'
+
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] =  '*'
+
+console.log(axios.defaults.headers)
+try {
     axios
-      .post('https://master.9cat.work/session', {
-        Address: selectedAccount,
-        Message:message,
-        Signature:signedMessage,
+   .post('https://dao.9cat.net/session/', {    //
+        // .post('https://master.9cat.work/session/', {
+
+        // Address: selectedAccount,
+        // Message:message,
+        // Signature:signedMessage,
+
+        a: selectedAccount,
+        m:message,
+        s:signedMessage,
 
       })
       .then(function (response) {       
-            console.log(`response:　` + response)
+            console.log(`response:` , JSON.stringify(response))
+            console.log('reps data :', response.data)      
+            console.log('reps data verify:', response.data.verify)      
+            console.log('reps data session:', response.data.session)  
+
+            var element = document.getElementById('wechat-session');
+            element.value ='@9cat '+response.data.session;
+
+            // document.querySelector('input[name = "wechat-session"]').vaule = "wechat-session"
+            // document.querySelector('input[name = "wechat-session"]').setAttribute('placeholder',  response.data.session)
+            // document.querySelector('input[name = "wechat-session"]').textContent = response.data.session
       })
       .catch(function (error) {
         console.log(error)

@@ -1,6 +1,6 @@
 package peer
 
-// Copyright 2012-2022 9CAT Devlopment Team. All rights reserved.
+// Copyright 2012-2023 9CAT Devlopment Team. All rights reserved.
 // license that can be found in the LICENSE file.
 
 import (
@@ -21,7 +21,7 @@ type Peer struct {
 	// db *gorm.DB
 }
 
-//Create is an instance
+// Create is an instance
 func Create() *Peer {
 	log.Printf("create Peer Instance.....")
 	once.Do(func() {
@@ -40,7 +40,6 @@ func (e *Peer) init() error {
 }
 
 func (e *Peer) Run() error {
-
 	e.startWebServer()
 	return nil
 }
