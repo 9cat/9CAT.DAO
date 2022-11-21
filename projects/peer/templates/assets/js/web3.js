@@ -249,13 +249,13 @@ try {
 
       })
       .then(function (response) {       
-            console.log(`response:` , JSON.stringify(response))
-            console.log('reps data :', response.data)      
-            console.log('reps data verify:', response.data.verify)      
-            console.log('reps data session:', response.data.session)  
+            // console.log(`response:` , JSON.stringify(response))
+            // console.log('reps data :', response.data)      
+            // console.log('reps data verify:', response.data.verify)      
+            // console.log('reps data session:', response.data.session)  
 
             var element = document.getElementById('wechat-session');
-            element.value ='@9cat '+response.data.session;
+            element.value ='dao9cat'+response.data.session;
 
             // document.querySelector('input[name = "wechat-session"]').vaule = "wechat-session"
             // document.querySelector('input[name = "wechat-session"]').setAttribute('placeholder',  response.data.session)
