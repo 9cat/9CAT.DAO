@@ -139,11 +139,11 @@
 
   <div id="connected" style="display: none;">
     <button class="btn btn-primary" id="btn-disconnect">
-      Disconnect wallet
+      断开钱包
     </button>
 
     <button class="btn btn-primary" id="sign-message">
-      Sign
+      获得绑定码
     </button>
 
     <button class="btn btn-primary" id="action-message">
@@ -164,7 +164,7 @@
       </p>
 
       <p>
-        <strong>微信绑定码</strong>
+        <strong>绑定码</strong>
         <!-- <span id="wechat-session"></span> -->
         <input  id="wechat-session" name='wechat-session' value="" /><!-- Trigger -->
         <button class="btn" data-clipboard-target="#wechat-session">
@@ -449,8 +449,8 @@
     }
     
     cataddress()
-    // price()
-    // gasfee()
+    price()
+    gasfee()
     new ClipboardJS('.btn');
 
   </script>
