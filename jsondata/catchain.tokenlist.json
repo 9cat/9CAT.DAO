@@ -1,0 +1,32 @@
+{
+    "name": "9CAT",
+    "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/assets/images/9cat.png",
+    "keywords": [
+        "9cat",
+        "defi"
+    ],
+    "timestamp": "2021-05-27T20:37:00.000+00:00",
+    "tokens": [
+        {
+            "chainId": 9000,
+            "address": "0x0E4cc5bA3362C1bfe72564bC1f386325CDB93925",
+            "name": "TEMPLE TEST Token",
+            "symbol": "TEMPLE",
+            "decimals": 18,
+            "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/assets/images/logo-test.png",
+        },
+        {
+            "chainId": 9000,
+            "address": "0x0E4cc5bA3362C1bfe72564bC1f386325CDB93925",
+            "name": "TEMPLE TEST Token",
+            "symbol": "TEMPLE",
+            "decimals": 18,
+            "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/assets/images/logo-test.png",
+        }
+    ],
+    "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0
+    }
+}
