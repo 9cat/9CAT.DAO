@@ -13,7 +13,7 @@
             "name": "TEMPLE TEST Token",
             "symbol": "TEMPLE",
             "decimals": 18,
-            "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/assets/images/logo-test.png",
+            "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/assets/images/logo-test.png"
         },
         {
             "chainId": 9000,
@@ -21,7 +21,7 @@
             "name": "TEMPLE TEST Token",
             "symbol": "TEMPLE",
             "decimals": 18,
-            "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/assets/images/logo-test.png",
+            "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/assets/images/logo-test.png"
         }
     ],
     "version": {
