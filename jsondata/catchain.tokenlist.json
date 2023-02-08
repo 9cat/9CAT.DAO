@@ -17,11 +17,11 @@
         },
         {
             "chainId": 9000,
-            "address": "0x0E4cc5bA3362C1bfe72564bC1f386325CDB93925",
-            "name": "TEMPLE TEST Token",
-            "symbol": "TEMPLE",
+            "address": "0x45f69ec1DdCFC75aAc8789eceD814eEfE6C7F46E",
+            "name": "Future AI",
+            "symbol": "Future-AI",
             "decimals": 18,
-            "logoURI": "https://raw.githubusercontent.com/9cat/9CAT.DAO/main/assets/images/logo-test.svg"
+            "logoURI": "https://assets.coingecko.com/coins/images/28841/small/200x200.png?1674797020"
         }
     ],
     "version": {
